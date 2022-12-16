@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kan Ban</title>
+</head>
+<body>
+<!--
+https://github.com/bevacqua/dragula
+-->
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row mt-3">
+    <div class="col-12 text-center">
+        <h2>Kan Ban Board</h2>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-3"><h5>BackLog</h5></div>
+    <div class="col-3"><h5>Planning</h5></div>
+    <div class="col-3"><h5>In-Progress</h5></div>
+    <div class="col-3"><h5>Complete</h5></div>
+</div>
+
+
+<div class="row mt-5">
+
+    <div class="col-3" id="BackLogLane">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title" contenteditable="true">Complete Task 1</h5>
+                <p class="card-text" contenteditable="true">
+                    Lorem Imsum dolar ...
+                </p>
+                <span class="badge bg-primary">App1</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-3" id="PlanningLane"></div>
+    <div class="col-3" id="InProgressLane"></div>
+    <div class="col-3" id="CompleteLane"></div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-3">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTaskModel">
+            Add Task
+        </button>
+    </div>
+    <div class="offset-9"></div>
+
+</div>
+
+
+<div class="modal" tabindex="-1" id="addTaskModel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Task</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label class="form-label" for="txtTitle">Title</label>
+                    <input class="form-control" id="txtTitle" type="text" />
+                </div>
+                <div>
+                    <label class="form-label" for="txtDescription">Description</label>
+                    <textarea cols="60" rows="5" wrap="hard" class="form-control" id="txtDescription"></textarea>
+                </div>
+                <div>
+                    <label class="form-label" for="txtTags">Tags</label>
+                    <input class="form-control" list="selTags" id="txtTags" />
+                    <datalist id="selTags">
+                        <option>App1</option>
+                    </datalist>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    (function () {
+        dragula(
+            [
+                document.querySelector("#BackLogLane"),
+                document.querySelector("#PlanningLane"),
+                document.querySelector("#InProgressLane"),
+                document.querySelector("#CompleteLane")
+            ]
+       );
+    })();
+
+</script>
+
+
+</body>
+</html>
