@@ -1,7 +1,7 @@
 
 
 function wireDragula(){
-    dragula(
+     let drake = dragula(
             [
                 document.querySelector("#BackLogLane"),
                 document.querySelector("#PlanningLane"),
@@ -9,7 +9,19 @@ function wireDragula(){
                 document.querySelector("#CompleteLane")
             ]
        );
+
+     drake.on("drop", printEnd);
 }
+
+function printEnd(el, target, source, sibling)
+{
+    console.log(el);
+    console.log(target);
+    console.log(source);
+    console.log(sibling);
+    console.log(`Dropped ${el.id}`);
+}
+
 
 
 
