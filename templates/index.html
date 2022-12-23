@@ -32,13 +32,15 @@
 <div class="row mt-5">
 
     <div class="col-3" id="BackLogLane">
-        <div class="card" style="width: 18rem;">
+        <div class="card" id="task1" style="width: 18rem;">
             <div class="card-body">
-                <h5 class="card-title" contenteditable="true">Complete Task 1</h5>
-                <p class="card-text" contenteditable="true">
+                <h5 class="card-title" id="task1-title" contenteditable="true">Complete Task 1</h5>
+                <p class="card-text" id="task1-description" contenteditable="true">
                     Lorem Imsum dolar ...
                 </p>
-                <span class="badge bg-primary">App1</span>
+                <div id="task1-tags">
+                    <span class="badge bg-primary">App1</span>
+                </div>
             </div>
         </div>
     </div>
@@ -92,21 +94,6 @@
 </div>
 
 <script src="/static/js/kanban.js"></script>
-<script>
-    /*
-    (function () {
-        dragula(
-            [
-                document.querySelector("#BackLogLane"),
-                document.querySelector("#PlanningLane"),
-                document.querySelector("#InProgressLane"),
-                document.querySelector("#CompleteLane")
-            ]
-       );
-    })();
-*/
-</script>
-
 
 </body>
 </html>
