@@ -70,10 +70,6 @@ async function updateTask(task){
         }
 }
 
-
-
-
-
 window.onload = () => {
     console.log("Loaded");
     wireDragula();
