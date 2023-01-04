@@ -1,0 +1,10 @@
+{
+  "name": "KanBan",
+  "version": "1.0.0",
+  "dependencies": {
+    "@types/bootstrap": "^5.2.6",
+    "@types/dragula": "^3.7.1",
+    "@types/jquery": "^3.5.16",
+    "bootstrap": "^5.2.3"
+  }
+}

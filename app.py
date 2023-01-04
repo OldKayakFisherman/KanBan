@@ -48,12 +48,17 @@ with app.app_context():
 
 @app.route('/')
 def index(prms=None):  # put application's code here
-    print(db.session.execute(db.select(Task)))
-    tasks = db.session.execute(db.select(Task))
+    print(db.session.execute(db.select(Task)).scalars())
+    tasks = db.session.execute(db.select(Task)).scalars()
     return render_template('index.html', tasks=tasks)
 
 
-@app.route('/api/updateTask', methods=['POST'])
+@app.route('/api/updateTask', methods=['PUT'])
+def updateTask():
+    print(request.json)
+    return "Success", 200, {"Access-Control-Allow-Origin": "*"}
+
+@app.route('/api/addTask', methods=['POST'])
 def updateTask():
     print(request.json)
     return "Success", 200, {"Access-Control-Allow-Origin": "*"}

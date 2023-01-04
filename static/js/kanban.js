@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,6 +35,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+var dragula = require("dragula");
+var apiHelper_1 = require("./apiHelper");
+var bootstrap_1 = require("bootstrap");
+function wireModal() {
+    var btnSave = document.getElementById("btnSaveChanges");
+    btnSave.onclick = saveNewEntity;
+}
 function wireDragula() {
     var drake = dragula([
         document.querySelector("#BackLogLane"),
@@ -43,13 +52,35 @@ function wireDragula() {
     ]);
     drake.on("drop", itemDropped);
 }
+function saveNewEntity() {
+    return __awaiter(this, void 0, void 0, function () {
+        var data, response, addModal;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    data = parseNewTaskData();
+                    return [4 /*yield*/, (0, apiHelper_1.doPostRequest)('/api/addTask', data)];
+                case 1:
+                    response = _a.sent();
+                    if (response.success) {
+                        addModal = bootstrap_1.Modal.getInstance(document.getElementById('staticBackdrop'));
+                        addModal.hide();
+                    }
+                    else {
+                        console.log(response.error);
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
 function itemDropped(el, target, source, sibling) {
     return __awaiter(this, void 0, void 0, function () {
         var model;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    model = parseTaskData(el.id, target);
+                    model = parseSwimlaneTaskData(el.id, target);
                     return [4 /*yield*/, updateTask(model)];
                 case 1:
                     _a.sent();
@@ -58,7 +89,16 @@ function itemDropped(el, target, source, sibling) {
         });
     });
 }
-function parseTaskData(cardId, target) {
+function parseNewTaskData() {
+    var model = {
+        "title": document.getElementById('#txtNewTitle').textContent.trim(),
+        "description": document.getElementById('txtNewDescription').textContent.trim(),
+        "tags": document.getElementById('txtNewTags').textContent.split(','),
+        "currentSwimlane": "BackLogLane"
+    };
+    return model;
+}
+function parseSwimlaneTaskData(cardId, target) {
     var baseModel = {
         "id": cardId.replace("task", ""),
         "title": document.getElementById("".concat(cardId, "-title")).textContent.trim(),
@@ -70,7 +110,6 @@ function parseTaskData(cardId, target) {
     var tagContainer = document.querySelector("#".concat(cardId, "-tags"));
     var tagSpans = tagContainer.querySelectorAll("span");
     tagSpans.forEach(function (el) {
-        console.log(el);
         baseModel.tags.push(el.textContent);
     });
     return baseModel;
@@ -83,7 +122,7 @@ function updateTask(task) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, fetch('/api/updateTask', {
-                            method: 'POST',
+                            method: 'PUT',
                             body: JSON.stringify(task),
                             headers: {
                                 'Content-Type': 'application/json',
@@ -112,8 +151,45 @@ function updateTask(task) {
         });
     });
 }
+function addTask(task) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, fetch('/api/addTask', {
+                            method: 'POST',
+                            body: JSON.stringify(task),
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Accept: 'application/json',
+                            },
+                        })];
+                case 1:
+                    response = _a.sent();
+                    if (!response.ok) {
+                        throw new Error("Error! status: ".concat(response.status));
+                    }
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_2 = _a.sent();
+                    if (error_2 instanceof Error) {
+                        console.log('error message: ', error_2.message);
+                        return [2 /*return*/, error_2.message];
+                    }
+                    else {
+                        console.log('unexpected error: ', error_2);
+                        return [2 /*return*/, 'An unexpected error occurred'];
+                    }
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
 window.onload = function () {
-    console.log("Loaded");
     wireDragula();
+    wireModal();
 };
 //# sourceMappingURL=kanban.js.map

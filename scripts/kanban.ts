@@ -1,4 +1,15 @@
+import bootstrap = require('bootstrap');
+import dragula = require('dragula');
+import {doPostRequest} from './apiHelper'
+import {doPutRequest} from "./apiHelper";
+import {Modal} from "bootstrap";
 
+
+
+function wireModal(){
+   let btnSave:HTMLButtonElement = document.getElementById("btnSaveChanges") as HTMLButtonElement;
+   btnSave.onclick = saveNewEntity;
+}
 
 function wireDragula(){
      let drake = dragula(
@@ -13,14 +24,39 @@ function wireDragula(){
      drake.on("drop", itemDropped);
 }
 
+async function saveNewEntity(){
+    let data = parseNewTaskData();
+    let response = await doPostRequest('/api/addTask', data);
+
+    if (response.success){
+        let addModal: Modal = Modal.getInstance(document.getElementById('staticBackdrop'));
+        addModal.hide();
+    }
+    else
+    {
+        console.log(response.error);
+    }
+}
+
 async function itemDropped(el, target, source, sibling)
 {
-    let model = parseTaskData(el.id, target);
+    let model = parseSwimlaneTaskData(el.id, target);
     await updateTask(model);
 
 }
 
-function parseTaskData(cardId, target){
+function parseNewTaskData(){
+    let model = {
+        "title": document.getElementById('#txtNewTitle').textContent.trim(),
+        "description": document.getElementById('txtNewDescription').textContent.trim(),
+        "tags": document.getElementById('txtNewTags').textContent.split(','),
+        "currentSwimlane": "BackLogLane"
+    };
+
+    return model;
+}
+
+function parseSwimlaneTaskData(cardId, target){
 
     let baseModel  = {
         "id": cardId.replace("task", ""),
@@ -35,7 +71,6 @@ function parseTaskData(cardId, target){
     let tagSpans = tagContainer.querySelectorAll("span");
 
     tagSpans.forEach((el) =>{
-        console.log(el);
         baseModel.tags.push(el.textContent);
     });
 
@@ -46,6 +81,34 @@ async function updateTask(task){
 
      try {
             const response = await fetch('/api/updateTask', {
+                method: 'PUT',
+                body: JSON.stringify(task),
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error! status: ${response.status}`);
+            }
+
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                console.log('error message: ', error.message);
+                return error.message;
+            } else {
+                console.log('unexpected error: ', error);
+                return 'An unexpected error occurred';
+            }
+        }
+}
+
+async function addTask(task){
+
+     try {
+            const response = await fetch('/api/addTask', {
                 method: 'POST',
                 body: JSON.stringify(task),
                 headers: {
@@ -70,7 +133,8 @@ async function updateTask(task){
         }
 }
 
+
 window.onload = () => {
-    console.log("Loaded");
     wireDragula();
+    wireModal();
 }

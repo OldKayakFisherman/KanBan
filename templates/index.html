@@ -69,16 +69,16 @@
             </div>
             <div class="modal-body">
                 <div>
-                    <label class="form-label" for="txtTitle">Title</label>
-                    <input class="form-control" id="txtTitle" type="text" />
+                    <label class="form-label" for="txtNewTitle">Title</label>
+                    <input class="form-control" id="txtNewTitle" type="text" />
                 </div>
                 <div>
-                    <label class="form-label" for="txtDescription">Description</label>
-                    <textarea cols="60" rows="5" wrap="hard" class="form-control" id="txtDescription"></textarea>
+                    <label class="form-label" for="txtNewDescription">Description</label>
+                    <textarea cols="60" rows="5" wrap="hard" class="form-control" id="txtNewDescription"></textarea>
                 </div>
                 <div>
-                    <label class="form-label" for="txtTags">Tags</label>
-                    <input class="form-control" list="selTags" id="txtTags" />
+                    <label class="form-label" for="txtNewTags">Tags</label>
+                    <input class="form-control" list="selTags" id="txtNewTags" />
                     <datalist id="selTags">
                         <option>App1</option>
                     </datalist>
@@ -86,7 +86,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button id="btnSaveChanges" type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
