@@ -26,15 +26,19 @@ async function saveNewEntity(){
     let data = parseNewTaskData();
     let response = await doPostRequest('/api/addTask', data);
 
+    console.log(data);
+
+    /*
     if (response.success){
         // @ts-ignore
-        let addModal: Modal = Modal.getInstance(document.getElementById('staticBackdrop'));
+        let addModal: Modal = Modal.getInstance(document.getElementById('addTaskModel'));
         addModal.hide();
     }
     else
     {
         console.log(response.error);
     }
+     */
 }
 
 
@@ -46,10 +50,15 @@ async function itemDropped(el, target, source, sibling)
 }
 
 function parseNewTaskData(){
+
+    let titleControl: HTMLInputElement = document.getElementById('txtNewTitle') as HTMLInputElement;
+    let descriptionControl: HTMLTextAreaElement = document.getElementById('txtNewDescription') as HTMLTextAreaElement;
+    let tagControl: HTMLInputElement = document.getElementById('txtNewTags') as HTMLInputElement;
+
     let model = {
-        "title": document.getElementById('#txtNewTitle').textContent.trim(),
-        "description": document.getElementById('txtNewDescription').textContent.trim(),
-        "tags": document.getElementById('txtNewTags').textContent.split(','),
+        "title": titleControl.value,
+        "description": descriptionControl.value,
+        "tags": tagControl.value,
         "currentSwimlane": "BackLogLane"
     };
 

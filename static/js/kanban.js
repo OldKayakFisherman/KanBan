@@ -26,14 +26,18 @@ function saveNewEntity() {
     return __awaiter(this, void 0, void 0, function* () {
         let data = parseNewTaskData();
         let response = yield doPostRequest('/api/addTask', data);
-        if (response.success) {
+        console.log(data);
+        /*
+        if (response.success){
             // @ts-ignore
-            let addModal = Modal.getInstance(document.getElementById('staticBackdrop'));
+            let addModal: Modal = Modal.getInstance(document.getElementById('addTaskModel'));
             addModal.hide();
         }
-        else {
+        else
+        {
             console.log(response.error);
         }
+         */
     });
 }
 function itemDropped(el, target, source, sibling) {
@@ -43,10 +47,13 @@ function itemDropped(el, target, source, sibling) {
     });
 }
 function parseNewTaskData() {
+    let titleControl = document.getElementById('txtNewTitle');
+    let descriptionControl = document.getElementById('txtNewDescription');
+    let tagControl = document.getElementById('txtNewTags');
     let model = {
-        "title": document.getElementById('#txtNewTitle').textContent.trim(),
-        "description": document.getElementById('txtNewDescription').textContent.trim(),
-        "tags": document.getElementById('txtNewTags').textContent.split(','),
+        "title": titleControl.value,
+        "description": descriptionControl.value,
+        "tags": tagControl.value,
         "currentSwimlane": "BackLogLane"
     };
     return model;
