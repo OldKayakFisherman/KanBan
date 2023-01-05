@@ -1,10 +1,6 @@
-import bootstrap = require('bootstrap');
-import dragula = require('dragula');
-import {doPostRequest} from './apiHelper'
-import {doPutRequest} from "./apiHelper";
-import {Modal} from "bootstrap";
 
-
+import {doPostRequest} from './apiHelper.js'
+import {doPutRequest} from "./apiHelper.js";
 
 function wireModal(){
    let btnSave:HTMLButtonElement = document.getElementById("btnSaveChanges") as HTMLButtonElement;
@@ -12,7 +8,9 @@ function wireModal(){
 }
 
 function wireDragula(){
-     let drake = dragula(
+
+     // @ts-ignore
+    let drake = dragula(
             [
                 document.querySelector("#BackLogLane"),
                 document.querySelector("#PlanningLane"),
@@ -29,6 +27,7 @@ async function saveNewEntity(){
     let response = await doPostRequest('/api/addTask', data);
 
     if (response.success){
+        // @ts-ignore
         let addModal: Modal = Modal.getInstance(document.getElementById('staticBackdrop'));
         addModal.hide();
     }
@@ -37,6 +36,7 @@ async function saveNewEntity(){
         console.log(response.error);
     }
 }
+
 
 async function itemDropped(el, target, source, sibling)
 {

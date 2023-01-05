@@ -59,7 +59,7 @@ def updateTask():
     return "Success", 200, {"Access-Control-Allow-Origin": "*"}
 
 @app.route('/api/addTask', methods=['POST'])
-def updateTask():
+def addTask():
     print(request.json)
     return "Success", 200, {"Access-Control-Allow-Origin": "*"}
 

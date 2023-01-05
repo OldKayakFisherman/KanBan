@@ -1,4 +1,5 @@
 
+
 export class APIRequestResponse {
     success: boolean;
     serverResponse: string;

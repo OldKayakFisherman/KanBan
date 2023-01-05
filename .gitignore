@@ -131,3 +131,5 @@ dmypy.json
 #PyCharm local Files
 .idea
 /app.db
+
+node_modules
