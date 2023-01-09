@@ -1,6 +1,7 @@
-
 import {doPostRequest} from './apiHelper.js'
 import {doPutRequest} from "./apiHelper.js";
+
+
 
 function wireModal(){
    let btnSave:HTMLButtonElement = document.getElementById("btnSaveChanges") as HTMLButtonElement;
@@ -26,11 +27,10 @@ async function saveNewEntity(){
     let data = parseNewTaskData();
     let response = await doPostRequest('/api/addTask', data);
 
-    console.log(data);
-
-    /*
+/*
     if (response.success){
-        // @ts-ignore
+
+
         let addModal: Modal = Modal.getInstance(document.getElementById('addTaskModel'));
         addModal.hide();
     }
@@ -38,7 +38,7 @@ async function saveNewEntity(){
     {
         console.log(response.error);
     }
-     */
+*/
 }
 
 

@@ -1,20 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% extends "base.html" %}
 
-    <link href="/static/js/bootstrap-5.0.2-dist/css/bootstrap.css" rel="stylesheet" media="screen">
+{% block title %}Kan Ban{% endblock %}
+
+{% block head %}
     <link href="/static/js/dragula/dragula.css" rel="stylesheet" media="screen">
-
-    <script src="/static/js/bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
     <script src="/static/js/dragula/dragula.min.js"></script>
+{% endblock %}
 
-
-    <meta charset="UTF-8">
-    <title>Kan Ban</title>
-</head>
-<body>
-
-<div class="container">
+ {% block content %}
 
 <div class="row mt-3">
     <div class="col-12 text-center">
@@ -52,14 +45,13 @@
 
 <div class="row mt-5">
     <div class="col-3">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTaskModel">
+        <a href="/addTask" class="btn btn-primary">
             Add Task
-        </button>
+        </a>
     </div>
     <div class="offset-9"></div>
 
 </div>
-
 
 <div class="modal" tabindex="-1" id="addTaskModel">
     <div class="modal-dialog">
@@ -92,10 +84,9 @@
         </div>
     </div>
 </div>
-</div>
 
+{% endblock %}
 
-<script async type="module"  src="/static/js/kanban.js"></script>
-
-</body>
-</html>
+{% block scripts %}
+    <script async type="module"  src="/static/js/kanban.js"></script>
+{% endblock %}

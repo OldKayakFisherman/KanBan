@@ -47,10 +47,8 @@ async function doBaseRequest(verb, url, payload){
                 apiResponse.error = error;
                 //console.log('unexpected error: ', error);
             }
-
-            return apiResponse;
-
-
         }
+
+        return apiResponse;
 }
 

@@ -58,10 +58,11 @@ def updateTask():
     print(request.json)
     return "Success", 200, {"Access-Control-Allow-Origin": "*"}
 
-@app.route('/api/addTask', methods=['POST'])
-def addTask():
-    print(request.json)
-    return "Success", 200, {"Access-Control-Allow-Origin": "*"}
+@app.route('/addTask', methods=['GET', 'POST'])
+def addNewTask():
+    return render_template('newTask.html')
+    #print(request.json)
+    #return "Success", 200, {"Access-Control-Allow-Origin": "*"}
 
 
 if __name__ == '__main__':

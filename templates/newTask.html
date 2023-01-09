@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Add Task{% endblock %}
+
+{% block content %}
+
+<form id="frmAddTask" method="post" action="/addTask" class="mt-5">
+
+    <h4>Add new Task</h4>
+
+    <div>
+        <label class="form-label" for="txtNewTitle">Title:</label>
+        <input class="form-control" id="txtNewTitle" type="text" />
+    </div>
+    <div>
+        <label class="form-label" for="txtNewDescription">Description:</label>
+        <textarea cols="60" rows="5" wrap="hard" class="form-control" id="txtNewDescription"></textarea>
+    </div>
+    <div>
+        <label class="form-label" for="txtNewTag">Tags:</label>
+        <input class="form-control" list="selTags" id="txtNewTag" />
+        <div id="dvTagContainer">
+            <span></span>
+        </div>
+    </div>
+</form>
+
+ {% endblock %}
