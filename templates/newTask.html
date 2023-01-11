@@ -6,7 +6,7 @@
 
 <form id="frmAddTask" method="post" action="/addTask" class="mt-5">
 
-    <h4>Add new Task</h4>
+    <h4 class="alert-primary">Add new Task</h4>
 
     <div>
         <label class="form-label" for="txtNewTitle">Title:</label>
@@ -16,13 +16,25 @@
         <label class="form-label" for="txtNewDescription">Description:</label>
         <textarea cols="60" rows="5" wrap="hard" class="form-control" id="txtNewDescription"></textarea>
     </div>
-    <div>
-        <label class="form-label" for="txtNewTag">Tags:</label>
-        <input class="form-control" list="selTags" id="txtNewTag" />
-        <div id="dvTagContainer">
-            <span></span>
-        </div>
+     <div class="form-group">
+                <label class="control-label" for="tagInput">Tags</label>
+                <input type="text" id="tagInput" class="form-control" />
+     </div>
+
+    <div class="form-group">
+        <span id="tagTarget"></span>
     </div>
+
+    <div class="form-group mt-3">
+        <a href="/" class="btn btn-secondary">Cancel</a>
+        <input id="btnAddRecord" type="button" class="btn btn-primary" value="Submit">
+    </div>
+
+
 </form>
 
- {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+    <script async type="module"  src="static/js/newTaskHelper.js"></script>
+{% endblock %}
