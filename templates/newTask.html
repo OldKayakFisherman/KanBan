@@ -4,13 +4,16 @@
 
 {% block content %}
 
-<form id="frmAddTask" method="post" action="/addTask" class="mt-5">
+<form id="frmAddTask" method="post" action="/addTask" class="mt-5 needs-validation" novalidate>
 
     <h4 class="alert-primary">Add new Task</h4>
 
     <div>
         <label class="form-label" for="txtNewTitle">Title:</label>
-        <input class="form-control" id="txtNewTitle" type="text" />
+        <input class="form-control" id="txtNewTitle" type="text" required />
+         <div class="invalid-feedback">
+            Please provide a valid task title.
+         </div>
     </div>
     <div>
         <label class="form-label" for="txtNewDescription">Description:</label>

@@ -21,12 +21,11 @@ export class TagHelper {
         this.entry.addEventListener('keydown', this.handleEntryKeyDown);
     }
     removeTag(ev) {
-        if (ev.pointerId > -1) {
-            let sourceButton = ev.target;
-            let parentSpan = sourceButton.parentElement;
-            let grandfatherSpan = parentSpan.parentElement;
-            grandfatherSpan.removeChild(parentSpan);
-        }
+        ev.preventDefault();
+        let sourceButton = ev.target;
+        let parentSpan = sourceButton.parentElement;
+        let grandfatherSpan = parentSpan.parentElement;
+        grandfatherSpan.removeChild(parentSpan);
     }
     addTag(tagContent) {
         let newTag = document.createElement("span");

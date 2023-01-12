@@ -26,19 +26,23 @@ export class TagHelper {
             if (sourceElement.value.length > 0) {
                 this.addTag(sourceElement.value);
             }
+
             ev.preventDefault();
+
             sourceElement.value = "";
             sourceElement.focus();
         }
     }
 
     private removeTag(ev: PointerEvent): void {
-        if (ev.pointerId > -1) {
-            let sourceButton = ev.target as HTMLButtonElement;
-            let parentSpan = sourceButton.parentElement as HTMLSpanElement;
-            let grandfatherSpan = parentSpan.parentElement as HTMLSpanElement;
-            grandfatherSpan.removeChild(parentSpan);
-        }
+
+         ev.preventDefault();
+
+         let sourceButton = ev.target as HTMLButtonElement;
+         let parentSpan = sourceButton.parentElement as HTMLSpanElement;
+         let grandfatherSpan = parentSpan.parentElement as HTMLSpanElement;
+         grandfatherSpan.removeChild(parentSpan);
+
     }
 
 
