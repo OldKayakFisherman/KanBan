@@ -1,10 +1,13 @@
 //import {HttpRequestHelper} from "./apiHelper.js";
 import { TagHelper } from "./tagHelper.js";
+import { BootstrapValidator } from "./bootstrapValidator.js";
 class TaskAdditionHelper {
     watch() {
         let tagInput = document.getElementById("tagInput");
         let tagTarget = document.getElementById("tagTarget");
-        new TagHelper(tagInput, tagTarget).watch();
+        let tagFormInput = document.getElementById("hdnTags");
+        new TagHelper(tagInput, tagTarget, tagFormInput).watch();
+        new BootstrapValidator().AddValidation();
         this.wireEvents();
     }
     wireEvents() {

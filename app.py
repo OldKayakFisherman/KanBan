@@ -58,11 +58,19 @@ def updateTask():
     print(request.json)
     return "Success", 200, {"Access-Control-Allow-Origin": "*"}
 
-@app.route('/addTask', methods=['GET', 'POST'])
+@app.route('/task', methods=['GET', 'POST'])
 def addNewTask():
-    return render_template('newTask.html')
-    #print(request.json)
-    #return "Success", 200, {"Access-Control-Allow-Origin": "*"}
+
+    if request.method == 'GET':
+        return render_template('task.html')
+    elif request.method == 'POST':
+        print("POST")
+        print(request.form)
+        return render_template('task.html')
+    else:
+        print(request.method)
+        return render_template('task.html')
+
 
 
 if __name__ == '__main__':

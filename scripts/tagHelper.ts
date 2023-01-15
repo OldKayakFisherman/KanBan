@@ -2,11 +2,17 @@ export class TagHelper {
 
     private entry: HTMLInputElement;
     private display: HTMLElement;
+    private formInput: HTMLInputElement;
 
-    constructor(entryControl: HTMLInputElement, displayControl: HTMLElement) {
+    constructor(
+        entryControl: HTMLInputElement,
+        displayControl: HTMLElement,
+        formControl: HTMLInputElement
+    ) {
 
         this.entry = entryControl;
         this.display = displayControl;
+        this.formInput = formControl;
     }
 
     public watch(): void {
@@ -43,6 +49,20 @@ export class TagHelper {
          let grandfatherSpan = parentSpan.parentElement as HTMLSpanElement;
          grandfatherSpan.removeChild(parentSpan);
 
+         //remove the value from form control
+         let formControl: HTMLInputElement = document.getElementById(sourceButton.getAttribute('form-input')) as HTMLInputElement;
+
+        if(formControl.value)
+        {
+            let existingValues: string[] = formControl.value.split(',');
+            existingValues = existingValues.filter(function(ele){
+                return ele != parentSpan.textContent;
+            });
+            formControl.value = existingValues.toString();
+        }
+
+
+
     }
 
 
@@ -56,19 +76,28 @@ export class TagHelper {
 
         newTag.setAttribute("data-tag", tagContent);
 
-
-
         this.display.appendChild(newTag);
 
         //Add the close button
         let closeButton: HTMLButtonElement = document.createElement("button") as HTMLButtonElement;
         closeButton.className = "btn-close btn-close-white";
+        closeButton.setAttribute('form-input', this.formInput.id);
         closeButton.onclick = this.removeTag;
         newTag.appendChild(closeButton);
 
-
+        if(this.formInput.value)
+        {
+            let existingValues: string[] = this.formInput.value.split(',');
+            existingValues.push(tagContent);
+            this.formInput.value = existingValues.toString();
+        }
+        else
+        {
+            this.formInput.value = tagContent;
+        }
 
     }
+
 
 
 

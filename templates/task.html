@@ -4,20 +4,22 @@
 
 {% block content %}
 
-<form id="frmAddTask" method="post" action="/addTask" class="mt-5 needs-validation" novalidate>
+<form id="frmAddTask" method="post" action="/task" class="mt-5 needs-validation" novalidate>
+
+    <input type="hidden" id="hdnTags" name="hdnTags">
 
     <h4 class="alert-primary">Add new Task</h4>
 
     <div>
         <label class="form-label" for="txtNewTitle">Title:</label>
-        <input class="form-control" id="txtNewTitle" type="text" required />
+        <input class="form-control" id="txtNewTitle" name="txtNewTitle" type="text" required />
          <div class="invalid-feedback">
             Please provide a valid task title.
          </div>
     </div>
     <div>
         <label class="form-label" for="txtNewDescription">Description:</label>
-        <textarea cols="60" rows="5" wrap="hard" class="form-control" id="txtNewDescription"></textarea>
+        <textarea cols="60" rows="5" wrap="hard" class="form-control" name="txtNewDescription" id="txtNewDescription"></textarea>
     </div>
      <div class="form-group">
                 <label class="control-label" for="tagInput">Tags</label>
@@ -30,7 +32,7 @@
 
     <div class="form-group mt-3">
         <a href="/" class="btn btn-secondary">Cancel</a>
-        <input id="btnAddRecord" type="button" class="btn btn-primary" value="Submit">
+        <input id="btnAddRecord" type="submit" class="btn btn-primary" value="Submit">
     </div>
 
 
@@ -39,5 +41,5 @@
 {% endblock %}
 
 {% block scripts %}
-    <script async type="module"  src="static/js/newTaskHelper.js"></script>
+    <script async type="module"  src="../static/js/taskHelper.js"></script>
 {% endblock %}
