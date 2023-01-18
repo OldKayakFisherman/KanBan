@@ -27,6 +27,23 @@
 
     <div class="col-3" id="BackLogLane">
         <div class="card" id="task1" style="width: 18rem;">
+
+            {% for task in model.backlog_data %}
+
+                <div class="card-body">
+                    <h5 class="card-title" id="task1-title">{{ task.title|e }}</h5>
+                    <p class="card-text" id="task1-description">
+                        {{ task.description|e }}
+                    </p>
+                    <div id="task1-tags">
+                        {% for tag in task.tags %}
+                         <span class="badge bg-primary">{{ tag.value }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            {% endfor %}
+
             <div class="card-body">
                 <h5 class="card-title" id="task1-title" contenteditable="true">Complete Task 1</h5>
                 <p class="card-text" id="task1-description" contenteditable="true">
