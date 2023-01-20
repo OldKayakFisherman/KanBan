@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask import render_template
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
@@ -85,7 +85,7 @@ def addNewTask():
 
         db.session.add(newTask)
         db.session.commit()
-        return render_template('index.html')
+        return redirect(url_for('index'))
     else:
         print(request.method)
         return render_template('task.html')
