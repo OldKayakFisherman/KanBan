@@ -17,6 +17,10 @@ export async function doPutRequest(url, payload){
   return await doBaseRequest('PUT', url, payload);
 }
 
+export async function doDeleteRequest(url){
+    return await doBaseRequest("DELETE", url, "");
+}
+
 async function doBaseRequest(verb, url, payload){
 
         let apiResponse: APIRequestResponse = new APIRequestResponse();

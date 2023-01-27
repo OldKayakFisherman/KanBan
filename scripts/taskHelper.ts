@@ -13,18 +13,9 @@ class TaskAdditionHelper {
 
         new TagHelper(tagInput, tagTarget, tagFormInput).watch();
         new BootstrapValidator().AddValidation();
-        this.wireEvents();
+
     }
 
-
-    private wireEvents() {
-        let submitBtn = document.getElementById("btnbtnAddRecord");
-        submitBtn?.addEventListener('click', this.submitRecord);
-    }
-
-    private submitRecord() {
-        //TODO
-    }
 }
 
 

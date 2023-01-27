@@ -8,14 +8,6 @@ class TaskAdditionHelper {
         let tagFormInput = document.getElementById("hdnTags");
         new TagHelper(tagInput, tagTarget, tagFormInput).watch();
         new BootstrapValidator().AddValidation();
-        this.wireEvents();
-    }
-    wireEvents() {
-        let submitBtn = document.getElementById("btnbtnAddRecord");
-        submitBtn === null || submitBtn === void 0 ? void 0 : submitBtn.addEventListener('click', this.submitRecord);
-    }
-    submitRecord() {
-        //TODO
     }
 }
 window.onload = () => {

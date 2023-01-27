@@ -60,9 +60,6 @@ export class TagHelper {
             });
             formControl.value = existingValues.toString();
         }
-
-
-
     }
 
 
@@ -71,7 +68,7 @@ export class TagHelper {
     private addTag(tagContent: string) {
 
         let newTag: HTMLSpanElement = document.createElement("span") as HTMLSpanElement;
-        newTag.className = "badge bg-secondary p2 mt-1 me-1";
+        newTag.className = "badge bg-primary p2 mt-1 me-1";
         newTag.innerText = tagContent;
 
         newTag.setAttribute("data-tag", tagContent);

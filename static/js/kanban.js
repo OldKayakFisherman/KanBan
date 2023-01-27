@@ -7,11 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { doPostRequest } from './apiHelper.js';
-function wireModal() {
-    let btnSave = document.getElementById("btnSaveChanges");
-    btnSave.onclick = saveNewEntity;
-}
+import { doPutRequest, doDeleteRequest } from './apiHelper.js';
 function wireDragula() {
     // @ts-ignore
     let drake = dragula([
@@ -22,113 +18,55 @@ function wireDragula() {
     ]);
     drake.on("drop", itemDropped);
 }
-function saveNewEntity() {
-    return __awaiter(this, void 0, void 0, function* () {
-        let data = parseNewTaskData();
-        let response = yield doPostRequest('/api/addTask', data);
-        /*
-            if (response.success){
-        
-        
-                let addModal: Modal = Modal.getInstance(document.getElementById('addTaskModel'));
-                addModal.hide();
-            }
-            else
-            {
-                console.log(response.error);
-            }
-        */
-    });
-}
 function itemDropped(el, target, source, sibling) {
     return __awaiter(this, void 0, void 0, function* () {
         let model = parseSwimlaneTaskData(el.id, target);
-        yield updateTask(model);
+        let apiResponse = yield doPutRequest("/task/updateSwimlane", model);
+        if (!apiResponse.success) {
+            console.log(apiResponse.error);
+        }
     });
 }
-function parseNewTaskData() {
-    let titleControl = document.getElementById('txtNewTitle');
-    let descriptionControl = document.getElementById('txtNewDescription');
-    let tagControl = document.getElementById('txtNewTags');
-    let model = {
-        "title": titleControl.value,
-        "description": descriptionControl.value,
-        "tags": tagControl.value,
-        "currentSwimlane": "BackLogLane"
-    };
-    return model;
-}
 function parseSwimlaneTaskData(cardId, target) {
+    let taskId = cardId.replace("taskCard", "");
     let baseModel = {
-        "id": cardId.replace("task", ""),
-        "title": document.getElementById(`${cardId}-title`).textContent.trim(),
-        "description": document.getElementById(`${cardId}-description`).textContent.trim(),
+        "id": cardId.replace("taskCard", ""),
+        "title": document.getElementById(`task${taskId}-title`).textContent.trim(),
+        "description": document.getElementById(`task${taskId}-description`).textContent.trim(),
         "tags": [],
         "currentSwimlane": target.id
     };
     //Parse the tags
-    let tagContainer = document.querySelector(`#${cardId}-tags`);
+    let tagContainer = document.querySelector(`#task${taskId}-tags`);
     let tagSpans = tagContainer.querySelectorAll("span");
     tagSpans.forEach((el) => {
         baseModel.tags.push(el.textContent);
     });
     return baseModel;
 }
-function updateTask(task) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const response = yield fetch('/api/updateTask', {
-                method: 'PUT',
-                body: JSON.stringify(task),
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-            });
-            if (!response.ok) {
-                throw new Error(`Error! status: ${response.status}`);
-            }
-        }
-        catch (error) {
-            if (error instanceof Error) {
-                console.log('error message: ', error.message);
-                return error.message;
-            }
-            else {
-                console.log('unexpected error: ', error);
-                return 'An unexpected error occurred';
-            }
-        }
+function wireEvents() {
+    let deleteAnchors = document.querySelectorAll("a[data-task-delete]");
+    deleteAnchors.forEach((el) => {
+        el.addEventListener('click', handleDeleteTask);
     });
 }
-function addTask(task) {
+function handleDeleteTask(ev) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const response = yield fetch('/api/addTask', {
-                method: 'POST',
-                body: JSON.stringify(task),
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-            });
-            if (!response.ok) {
-                throw new Error(`Error! status: ${response.status}`);
+        let deleteLink = ev.target;
+        if (deleteLink) {
+            let taskid = deleteLink.attributes['task-id'].value;
+            let httpReponse = yield doDeleteRequest(`/task/${taskid}`);
+            if (httpReponse.success) {
+                let taskCard = document.getElementById(`taskCard${taskid}`);
+                if (taskCard) {
+                    taskCard.parentElement.removeChild(taskCard);
+                }
             }
         }
-        catch (error) {
-            if (error instanceof Error) {
-                console.log('error message: ', error.message);
-                return error.message;
-            }
-            else {
-                console.log('unexpected error: ', error);
-                return 'An unexpected error occurred';
-            }
-        }
+        console.log("Deleting ...");
     });
 }
 window.onload = () => {
     wireDragula();
-    wireModal();
+    wireEvents();
 };

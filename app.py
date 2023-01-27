@@ -4,7 +4,7 @@ from flask import Flask, redirect, url_for
 from flask import render_template
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, select
 from sqlalchemy.orm import relationship
 from viewModels import IndexViewModel
 
@@ -22,8 +22,8 @@ class Task(db.Model):
     title = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=True)
     swimlane = db.Column(db.String, nullable=False)
-    tags = relationship("Tag", back_populates="task")
-    documents = relationship("Document", back_populates="task")
+    tags = relationship("Tag", cascade="all,delete", back_populates="task")
+    documents = relationship("Document", cascade="all,delete", back_populates="task")
 
 
 
@@ -51,14 +51,25 @@ with app.app_context():
 
 @app.route('/')
 def index(prms=None):  # put application's code here
-    tasks = db.session.execute(db.select(Task)).scalars()
-    vm = IndexViewModel(tasks)
+
+    backlog_data = db.session.execute(select(Task).where(Task.swimlane == 'BackLogLane')).scalars()
+    planning_data = db.session.execute(select(Task).where(Task.swimlane == 'PlanningLane')).scalars()
+    inprogress_data= db.session.execute(select(Task).where(Task.swimlane == 'InProgressLane')).scalars()
+    complete_data= db.session.execute(select(Task).where(Task.swimlane == 'CompleteLane')).scalars()
+
+    vm = IndexViewModel(backlog_data, planning_data, inprogress_data, complete_data)
+
     return render_template('index.html', model=vm)
 
 
-@app.route('/api/updateTask', methods=['PUT'])
-def updateTask():
-    print(request.json)
+@app.route('/task/updateSwimlane', methods=['PUT'])
+def updateTaskSwimlane():
+    task = Task.query.filter_by(id=request.get_json()['id']).first()
+
+    if task is not None:
+        task.swimlane = request.get_json()['currentSwimlane']
+        db.session.commit()
+
     return "Success", 200, {"Access-Control-Allow-Origin": "*"}
 
 @app.route('/task', methods=['GET', 'POST'])
@@ -68,15 +79,15 @@ def addNewTask():
         return render_template('task.html')
     elif request.method == 'POST':
         newTask = Task()
-        newTask.title = request.form['txtNewTitle']
-        newTask.description = request.form['txtNewTitle']
+        newTask.title = request.form['txtTaskTitle']
+        newTask.description = request.form['txtTaskDescription']
         newTask.swimlane = "BackLog"
 
         if request.form['hdnTags'] is not None:
 
             tagValues = []
 
-            for tagValue in request.form['hdnTags'].split(', '):
+            for tagValue in request.form['hdnTags'].split(','):
                 tagRecord = Tag()
                 tagRecord.value = tagValue
                 tagValues.append(tagRecord)
@@ -90,6 +101,16 @@ def addNewTask():
         print(request.method)
         return render_template('task.html')
 
+
+@app.route('/task/<int:task_id>', methods=['DELETE'])
+def deleteTask(task_id):
+    task = Task.query.filter_by(id=task_id).first()
+
+    if task is not None:
+        db.session.delete(task)
+        db.session.commit()
+
+    return "Success", 200, {"Access-Control-Allow-Origin": "*"}
 
 
 if __name__ == '__main__':

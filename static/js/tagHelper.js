@@ -39,7 +39,7 @@ export class TagHelper {
     }
     addTag(tagContent) {
         let newTag = document.createElement("span");
-        newTag.className = "badge bg-secondary p2 mt-1 me-1";
+        newTag.className = "badge bg-primary p2 mt-1 me-1";
         newTag.innerText = tagContent;
         newTag.setAttribute("data-tag", tagContent);
         this.display.appendChild(newTag);

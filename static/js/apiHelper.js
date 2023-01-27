@@ -19,6 +19,11 @@ export function doPutRequest(url, payload) {
         return yield doBaseRequest('PUT', url, payload);
     });
 }
+export function doDeleteRequest(url) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield doBaseRequest("DELETE", url, "");
+    });
+}
 function doBaseRequest(verb, url, payload) {
     return __awaiter(this, void 0, void 0, function* () {
         let apiResponse = new APIRequestResponse();

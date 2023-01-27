@@ -29,20 +29,20 @@
 
          {% for task in model.backlog_data %}
 
-            <div class="card" id="task1" style="width: 18rem;">
+            <div class="card" id="taskCard{{ task.id }}" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title" id="task{{ task.id|e }}-title">{{ task.title|e }}</h5>
-                    <p class="card-text" id="task{{ task.id|e }}-description">
+                    <h5 class="card-title" id="task{{ task.id }}-title">{{ task.title|e }}</h5>
+                    <p class="card-text" id="task{{ task.id }}-description">
                         {{ task.description|e }}
                     </p>
-                    <div id="task{{ task.id|e }}-tags">
+                    <div id="task{{ task.id }}-tags">
                         {% for tag in task.tags %}
                          <span class="badge bg-primary">{{ tag.value }}</span>
                         {% endfor %}
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="#"><i class="bi-trash" style="font-size: .9rem; color: cornflowerblue;"></i></a>
+                    <a href="#" data-task-delete><i task-id="{{ task.id }}" class="bi-trash" style="font-size: .9rem; color: cornflowerblue;"></i></a>
                 </div>
             </div>
 
@@ -53,55 +53,66 @@
 
          {% for task in model.planning_data %}
 
+             <div class="card" id="taskCard{{ task.id }}" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title" id="task{{ task.id|e }}-title">{{ task.title|e }}</h5>
-                    <p class="card-text" id="task{{ task.id|e }}-description">
+                    <h5 class="card-title" id="task{{ task.id }}-title">{{ task.title|e }}</h5>
+                    <p class="card-text" id="task{{ task.id }}-description">
                         {{ task.description|e }}
                     </p>
-                    <div id="task{{ task.id|e }}-tags">
+                    <div id="task{{ task.id }}-tags">
                         {% for tag in task.tags %}
                          <span class="badge bg-primary">{{ tag.value }}</span>
                         {% endfor %}
                     </div>
                 </div>
+                <div class="card-footer">
+                    <a href="#" data-task-delete><i task-id="{{ task.id }}" class="bi-trash" style="font-size: .9rem; color: cornflowerblue;"></i></a>
+                </div>
+             </div>
 
-            {% endfor %}
+         {% endfor %}
 
     </div>
     <div class="col-3" id="InProgressLane">
         {% for task in model.inprogress_data %}
+            <div class="card" id="taskCard{{ task.id }}" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title" id="task{{ task.id|e }}-title">{{ task.title|e }}</h5>
-                    <p class="card-text" id="task{{ task.id|e }}-description">
+                    <h5 class="card-title" id="task{{ task.id }}-title">{{ task.title|e }}</h5>
+                    <p class="card-text" id="task{{ task.id }}-description">
                         {{ task.description|e }}
                     </p>
-                    <div id="task{{ task.id|e }}-tags">
+                    <div id="task{{ task.id }}-tags">
                         {% for tag in task.tags %}
                          <span class="badge bg-primary">{{ tag.value }}</span>
                         {% endfor %}
                     </div>
-
                 </div>
-
-            {% endfor %}
+                <div class="card-footer">
+                    <a href="#" data-task-delete><i task-id="{{ task.id }}" class="bi-trash" style="font-size: .9rem; color: cornflowerblue;"></i></a>
+                </div>
+            </div>
+        {% endfor %}
 
     </div>
     <div class="col-3" id="CompleteLane">
         {% for task in model.complete_data %}
-
+            <div class="card" id="taskCard{{ task.id }}" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title" id="task{{ task.id|e }}-title">{{ task.title|e }}</h5>
-                    <p class="card-text" id="task{{ task.id|e }}-description">
+                    <h5 class="card-title" id="task{{ task.id }}-title">{{ task.title|e }}</h5>
+                    <p class="card-text" id="task{{ task.id }}-description">
                         {{ task.description|e }}
                     </p>
-                    <div id="task{{ task.id|e }}-tags">
+                    <div id="task{{ task.id }}-tags">
                         {% for tag in task.tags %}
                          <span class="badge bg-primary">{{ tag.value }}</span>
                         {% endfor %}
                     </div>
                 </div>
-
-            {% endfor %}
+                <div class="card-footer">
+                    <a href="#" data-task-delete><i task-id="{{ task.id }}" class="bi-trash" style="font-size: .9rem; color: cornflowerblue;"></i></a>
+                </div>
+            </div>
+        {% endfor %}
 
     </div>
 </div>

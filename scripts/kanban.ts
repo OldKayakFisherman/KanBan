@@ -1,12 +1,7 @@
-import {doPostRequest} from './apiHelper.js'
-import {doPutRequest} from "./apiHelper.js";
+import {doPostRequest, doPutRequest, doDeleteRequest, APIRequestResponse} from './apiHelper.js'
+import {HttpHelperResponse} from "./httpRequestHelper";
 
 
-
-function wireModal(){
-   let btnSave:HTMLButtonElement = document.getElementById("btnSaveChanges") as HTMLButtonElement;
-   btnSave.onclick = saveNewEntity;
-}
 
 function wireDragula(){
 
@@ -23,60 +18,34 @@ function wireDragula(){
      drake.on("drop", itemDropped);
 }
 
-async function saveNewEntity(){
-    let data = parseNewTaskData();
-    let response = await doPostRequest('/api/addTask', data);
-
-/*
-    if (response.success){
-
-
-        let addModal: Modal = Modal.getInstance(document.getElementById('addTaskModel'));
-        addModal.hide();
-    }
-    else
-    {
-        console.log(response.error);
-    }
-*/
-}
-
 
 async function itemDropped(el, target, source, sibling)
 {
     let model = parseSwimlaneTaskData(el.id, target);
-    await updateTask(model);
+    let apiResponse = await doPutRequest("/task/updateSwimlane", model);
+
+    if(!apiResponse.success)
+    {
+        console.log(apiResponse.error);
+    }
 
 }
 
-function parseNewTaskData(){
-
-    let titleControl: HTMLInputElement = document.getElementById('txtNewTitle') as HTMLInputElement;
-    let descriptionControl: HTMLTextAreaElement = document.getElementById('txtNewDescription') as HTMLTextAreaElement;
-    let tagControl: HTMLInputElement = document.getElementById('txtNewTags') as HTMLInputElement;
-
-    let model = {
-        "title": titleControl.value,
-        "description": descriptionControl.value,
-        "tags": tagControl.value,
-        "currentSwimlane": "BackLogLane"
-    };
-
-    return model;
-}
 
 function parseSwimlaneTaskData(cardId, target){
 
+    let taskId = cardId.replace("taskCard", "");
+
     let baseModel  = {
-        "id": cardId.replace("task", ""),
-        "title": document.getElementById(`${cardId}-title`).textContent.trim(),
-        "description": document.getElementById(`${cardId}-description`).textContent.trim(),
+        "id": cardId.replace("taskCard", ""),
+        "title": document.getElementById(`task${taskId}-title`).textContent.trim(),
+        "description": document.getElementById(`task${taskId}-description`).textContent.trim(),
         "tags": [],
         "currentSwimlane": target.id
     };
 
     //Parse the tags
-    let tagContainer = document.querySelector(`#${cardId}-tags`);
+    let tagContainer = document.querySelector(`#task${taskId}-tags`);
     let tagSpans = tagContainer.querySelectorAll("span");
 
     tagSpans.forEach((el) =>{
@@ -86,64 +55,41 @@ function parseSwimlaneTaskData(cardId, target){
     return baseModel;
 }
 
-async function updateTask(task){
 
-     try {
-            const response = await fetch('/api/updateTask', {
-                method: 'PUT',
-                body: JSON.stringify(task),
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-            });
+function wireEvents(){
 
-            if (!response.ok) {
-                throw new Error(`Error! status: ${response.status}`);
-            }
+    let deleteAnchors = document.querySelectorAll("a[data-task-delete]");
 
-        }
-        catch (error) {
-            if (error instanceof Error) {
-                console.log('error message: ', error.message);
-                return error.message;
-            } else {
-                console.log('unexpected error: ', error);
-                return 'An unexpected error occurred';
-            }
-        }
+    deleteAnchors.forEach((el) =>{
+        el.addEventListener('click', handleDeleteTask);
+    });
+
 }
 
-async function addTask(task){
+async function handleDeleteTask(ev){
 
-     try {
-            const response = await fetch('/api/addTask', {
-                method: 'POST',
-                body: JSON.stringify(task),
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-            });
+    let deleteLink:HTMLAnchorElement = ev.target as HTMLAnchorElement;
 
-            if (!response.ok) {
-                throw new Error(`Error! status: ${response.status}`);
-            }
+    if(deleteLink){
+        let taskid = deleteLink.attributes['task-id'].value;
+        let httpReponse:APIRequestResponse = await doDeleteRequest(`/task/${taskid}`);
 
-        }
-        catch (error) {
-            if (error instanceof Error) {
-                console.log('error message: ', error.message);
-                return error.message;
-            } else {
-                console.log('unexpected error: ', error);
-                return 'An unexpected error occurred';
+        if(httpReponse.success)
+        {
+            let taskCard: HTMLDivElement = document.getElementById(`taskCard${taskid}`) as HTMLDivElement;
+
+            if(taskCard){
+                taskCard.parentElement.removeChild(taskCard);
             }
         }
+
+    }
+
+
+    console.log("Deleting ...")
 }
-
 
 window.onload = () => {
     wireDragula();
-    wireModal();
+    wireEvents();
 }
