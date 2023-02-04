@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="#" data-task-edit title="Edit Task"><i task-id="{{ task.id }}" class="bi-pencil-square" style="font-size: .9rem; color: cornflowerblue;"></i></a>
+                    <a href="/task/edit/{{ task.id }}" data-task-edit title="Edit Task"><i task-id="{{ task.id }}" class="bi-pencil-square" style="font-size: .9rem; color: cornflowerblue;"></i></a>
                     <a href="#" data-task-delete title="Delete Task"><i task-id="{{ task.id }}" class="bi-trash ms-3" style="font-size: .9rem; color: cornflowerblue;"></i></a>
                 </div>
             </div>
@@ -67,7 +67,8 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="#" data-task-delete><i task-id="{{ task.id }}" class="bi-trash" style="font-size: .9rem; color: cornflowerblue;"></i></a>
+                    <a href="/task/edit/{{ task.id }}" data-task-edit title="Edit Task"><i task-id="{{ task.id }}" class="bi-pencil-square" style="font-size: .9rem; color: cornflowerblue;"></i></a>
+                    <a href="#" data-task-delete><i task-id="{{ task.id }}" class="bi-trash ms-3" style="font-size: .9rem; color: cornflowerblue;"></i></a>
                 </div>
              </div>
 
@@ -89,7 +90,8 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="#" data-task-delete><i task-id="{{ task.id }}" class="bi-trash" style="font-size: .9rem; color: cornflowerblue;"></i></a>
+                    <a href="/task/edit/{{ task.id }}" data-task-edit title="Edit Task"><i task-id="{{ task.id }}" class="bi-pencil-square" style="font-size: .9rem; color: cornflowerblue;"></i></a>
+                    <a href="#" data-task-delete><i task-id="{{ task.id }}" class="bi-trash ms-3" style="font-size: .9rem; color: cornflowerblue;"></i></a>
                 </div>
             </div>
         {% endfor %}
@@ -110,7 +112,8 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="#" data-task-delete><i task-id="{{ task.id }}" class="bi-trash" style="font-size: .9rem; color: cornflowerblue;"></i></a>
+                    <a href="/task/edit/{{ task.id }}" data-task-edit title="Edit Task"><i task-id="{{ task.id }}" class="bi-pencil-square" style="font-size: .9rem; color: cornflowerblue;"></i></a>
+                    <a href="#" data-task-delete><i task-id="{{ task.id }}" class="bi-trash ms-3" style="font-size: .9rem; color: cornflowerblue;"></i></a>
                 </div>
             </div>
         {% endfor %}

@@ -4,30 +4,39 @@
 
 {% block content %}
 
-<form id="frmAddTask" method="post" action="/task" class="mt-5 needs-validation" novalidate>
+<form id="frmUpdateTask" method="put" action="/task" class="mt-5 needs-validation" novalidate>
 
     <input type="hidden" id="hdnTags" name="hdnTags">
 
-    <h4 class="alert-primary">Add new Task</h4>
+    <h4 class="alert-primary">Update Task</h4>
 
     <div>
         <label class="form-label" for="txtTaskTitle">Title:</label>
-        <input class="form-control" id="txtTaskTitle" name="txtTaskTitle" type="text" required />
+        <input value="{{ model.title|e }}" class="form-control" id="txtTaskTitle" name="txtTaskTitle" type="text" required />
          <div class="invalid-feedback">
             Please provide a valid task title.
          </div>
     </div>
     <div>
         <label class="form-label" for="txtTaskDescription">Description:</label>
-        <textarea cols="60" rows="5" wrap="hard" class="form-control" name="txtTaskDescription" id="txtTaskDescription"></textarea>
+        <textarea cols="60" rows="5" wrap="hard" class="form-control" name="txtTaskDescription" id="txtTaskDescription">
+            {{ model.description }}
+        </textarea>
     </div>
      <div class="form-group">
-                <label class="control-label" for="tagInput">Tags</label>
-                <input type="text" id="tagInput" class="form-control" />
+         <label class="control-label" for="tagInput">Tags</label>
+         <input type="text" id="tagInput" class="form-control" />
      </div>
 
     <div class="form-group mt-3">
         <span id="tagTarget"></span>
+
+         {% for tag in model.tags %}
+            <span data-tag="{{ tag.value|e }}" class="badge bg-primary p2 mt-1 me-1">
+                {{ tag.value|e }}
+                <button onclick="removeTag();" form-input="frmUpdateTask" class ="btn-close btn-close-white"></button>
+            </span>
+         {% endfor %}
     </div>
 
     <div class="form-group mt-3">
@@ -38,4 +47,8 @@
 
 </form>
 
+{% endblock %}
+
+{% block scripts %}
+    <script async type="module"  src="../static/js/taskHelper.js"></script>
 {% endblock %}

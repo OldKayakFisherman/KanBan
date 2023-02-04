@@ -112,6 +112,14 @@ def deleteTask(task_id):
 
     return "Success", 200, {"Access-Control-Allow-Origin": "*"}
 
+@app.route('/task', methods=['PUT'])
+def updateTask():
+    pass
+
+@app.route('/task/edit/<int:task_id>', methods=['GET'])
+def editTask(task_id):
+    task = Task.query.filter_by(id=task_id).first()
+    return render_template('editTask.html', model=task)
 
 if __name__ == '__main__':
     app.run()
